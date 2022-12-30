@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/00af6a7c25.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/style.css" />
+    <title>Document</title>
+  </head>
+  <body class="grid grid-cols-3 gap-3">
+    <div
+      class="flex flex-col items-center content-center w-9/12 h-screen text-white bg-black"
+    >
+      <div>
+        <figure>
+          <img src="/assets/img/Icono_Pigasus.png" alt="" />
+          <h1 class="font-titulo text-6xl text-center">Pigasus</h1>
+        </figure>
+      </div>
+      <div
+        class="flex flex-row items-end justify-center p-5 gap-6 h-full w-full"
+      >
+        <a href="https://www.instagram.com"
+          ><img
+            src="https://cdn-icons-png.flaticon.com/512/174/174855.png"
+            alt=""
+            class="w-16"
+        /></a>
+        <a href="https://www.facebook.com"
+          ><img
+            src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png"
+            alt=""
+            class="w-16"
+        /></a>
+        <a href="https://web.whatsapp.com/">
+          <img
+            src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-whatsapp-mobile-software-icon-png-image_6315991.png"
+            alt=""
+            class="w-16"
+          />
+        </a>
+      </div>
+    </div>
+    <div class="w-full h-screen col-span-2">
+      <div class="text-center py-10 font-bold text-8xl">
+        <span>Menu</span>
+        <button class="relative h-14">
+          <img src="/assets/img/icon_shopping_cart.svg" alt="shopping cart" />
+          <p class="absolute top-0 rounded-full p-1 bg-red-400 text-xs left-4">
+            2
+          </p>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-3 grid-rows-1" id="productContainer"></div>
+    </div>
+    <button class="p-3 border-red-600 bg-red-300" id="showCar">
+      Ver Carrito
+    </button>
+    <div id="contenedorCarrito" class="row"></div>
+    <script src="./main.js"></script>
+  </body>
+</html>
