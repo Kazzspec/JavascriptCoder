@@ -1,30 +1,40 @@
 console.log("Hola mundo");
 const productContainer = document.querySelector("#productContainer");
 
-let productList = [];
-let shoppingCart = [];
-productList.push({
-  id: 1,
-  name: "Exotic Burger",
-  price: 40000,
-  image: "/assets/img/products/Exotic-burger.jpg",
-  items: 1,
-});
+class Producto {
+  constructor(id, name, price, image, items) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.image = image;
+    this.items = 1;
+  }
+}
 
-productList.push({
-  id: 2,
-  name: "Piggy Ultra",
-  price: 28000,
-  image: "/assets/img/products/Piggy-Ultra.jpg",
-  items: 1,
-});
-productList.push({
-  id: 3,
-  name: "Burger Pigasus",
-  price: 37000,
-  image: "/assets/img/products/ultimate-burger-pigasus.jpg",
-  items: 1,
-});
+const product1 = new Producto(
+  1,
+  "Exotic Burger",
+  40000,
+  "/assets/img/products/Exotic-burger.jpg"
+);
+
+const product2 = new Producto(
+  2,
+  "Piggy Ultra",
+  28000,
+  "/assets/img/products/Piggy-Ultra.jpg"
+);
+
+const product3 = new Producto(
+  3,
+  "Burger Pigasus",
+  37000,
+  "/assets/img/products/ultimate-burger-pigasus.jpg"
+);
+// Array de productor para vender
+let productList = [product1, product2, product3];
+// Array de carrito
+let shoppingCart = [];
 
 function renderProducts(arr) {
   for (product of productList) {
@@ -76,8 +86,8 @@ function renderProducts(arr) {
         </div>
     `;
     productContainer.appendChild(productCart);
-    const boton = document.getElementById(`btnComprar${product.id}`);
 
+    const boton = document.getElementById(`btnComprar${product.id}`);
     boton.addEventListener("click", () => {
       addToShoppingCar(product.id);
     });
@@ -87,14 +97,12 @@ renderProducts(productList);
 
 // Agregar carrito
 const addToShoppingCar = (id) => {
-  console.log(product.id);
-  const productInCar = shoppingCart.find((product) => product.id === id);
-  if (productInCar) {
-    productInCar.items++;
+  const producto = productList.find((producto) => product.id === id);
+  const productoEnCarrito = shoppingCart.find((producto) => product.id === id);
+  if (productoEnCarrito) {
+    productoEnCarrito.items++;
   } else {
-    const producto = productList.find((product) => product.id === id);
-    console.log(product.id);
-    shoppingCart.push(product);
+    shoppingCart.push(producto);
   }
 };
 // / Mostrar el carrito de compras
