@@ -1,29 +1,30 @@
 console.log("Hola mundo");
 const productContainer = document.querySelector("#productContainer");
 
-const productList = [];
+let productList = [];
 let shoppingCart = [];
 productList.push({
-  name: "Exotic_Burger",
+  id: 1,
+  name: "Exotic Burger",
   price: 40000,
   image: "/assets/img/products/Exotic-burger.jpg",
   items: 1,
 });
 
 productList.push({
-  name: "Piggy_Ultra",
+  id: 2,
+  name: "Piggy Ultra",
   price: 28000,
   image: "/assets/img/products/Piggy-Ultra.jpg",
   items: 1,
 });
 productList.push({
-  name: "Burger_Pigasus",
+  id: 3,
+  name: "Burger Pigasus",
   price: 37000,
   image: "/assets/img/products/ultimate-burger-pigasus.jpg",
   items: 1,
 });
-
-console.log(productList[0].name);
 
 function renderProducts(arr) {
   for (product of productList) {
@@ -51,6 +52,7 @@ function renderProducts(arr) {
               id=""
             />
           </a>
+          <p>${product.id}</p>
           <div class="px-2 pb-2">
             <a href="#">
               <h5
@@ -66,7 +68,7 @@ function renderProducts(arr) {
               >
               <button
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                id="btnComprar${product.name}"
+                id="btnComprar${product.id}"
                 >Comprar
               </button>
             </div>
@@ -74,26 +76,27 @@ function renderProducts(arr) {
         </div>
     `;
     productContainer.appendChild(productCart);
-    const boton = document.getElementById(`btnComprar${product.name}`);
+    const boton = document.getElementById(`btnComprar${product.id}`);
 
     boton.addEventListener("click", () => {
-      addToShoppingCar(product.name);
+      addToShoppingCar(product.id);
     });
   }
 }
 renderProducts(productList);
 
 // Agregar carrito
-const addToShoppingCar = (name) => {
-  const productInCar = shoppingCart.find((producto) => product.name === name);
+const addToShoppingCar = (id) => {
+  console.log(product.id);
+  const productInCar = shoppingCart.find((product) => product.id === id);
   if (productInCar) {
     productInCar.items++;
   } else {
-    const producto = productList.find((producto) => product.name === name);
+    const producto = productList.find((product) => product.id === id);
+    console.log(product.id);
     shoppingCart.push(product);
   }
 };
-
 // / Mostrar el carrito de compras
 
 const contenedorCarrito = document.getElementById("contenedorCarrito");
