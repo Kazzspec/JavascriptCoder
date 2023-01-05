@@ -2,6 +2,7 @@ console.log("Hola mundo");
 const productContainer = document.querySelector("#productContainer");
 const btnCarList = document.querySelector("#btnCarList");
 const containerCar = document.querySelector("#containerCar");
+const totalToPay = document.querySelector("#totalToPay");
 
 class Producto {
   constructor(id, name, price, image, items) {
@@ -108,8 +109,10 @@ const addToShoppingCar = (id) => {
     productoEnCarrito.items++;
   } else {
     shoppingCart.push(product);
+    //Trabajamos con el localStorage:
+    localStorage.setItem("carrito", JSON.stringify(shoppingCart));
   }
-  mostrarCarrito();
+  showListCar();
 };
 // / Mostrar el carrito de compras
 
@@ -118,10 +121,10 @@ const showCar = document.getElementById("showCar");
 
 showCar.addEventListener("click", () => {
   containerCar.classList.toggle("hidden");
-  mostrarCarrito();
+  showListCar();
 });
 
-const mostrarCarrito = () => {
+const showListCar = () => {
   contenedorCarrito.innerHTML = "";
   shoppingCart.forEach((product) => {
     const card = document.createElement("div");
@@ -134,7 +137,7 @@ const mostrarCarrito = () => {
                       >
                         <img
                           src=${product.image}
-                          alt="Cangreburger."
+                          alt="${product.name}"
                           class="h-full w-full object-cover object-center"
                         />
                       </div>
@@ -152,7 +155,7 @@ const mostrarCarrito = () => {
                           <div
                             class="flex justify-between text-base font-medium text-gray-900"
                           >
-                          <p class="ml-4">Cantidad: ${product.items}</p>
+                          <p>Cantidad: ${product.items}</p>
                           </div>
                         </div>
                         <div
@@ -178,6 +181,7 @@ const mostrarCarrito = () => {
       removeFromCar(product.id);
     });
   });
+  calTotal();
 };
 
 //Función que elimina el producto del carrito:
@@ -186,5 +190,24 @@ const removeFromCar = (id) => {
   const producto = shoppingCart.find((product) => product.id === id);
   const indice = shoppingCart.indexOf(producto);
   shoppingCart.splice(indice, 1);
-  mostrarCarrito();
+  //LocalStorage:
+  localStorage.clear();
+  showListCar();
 };
+
+//Mostramos mensaje con el total de la compra
+
+const calTotal = () => {
+  let purchase = 0;
+  shoppingCart.forEach((product) => {
+    purchase += product.price * product.items;
+    //+= es igual a poner totalCompra = totalCompra + producto.precio * producto.cantidad
+  });
+  console.log(purchase);
+  totalToPay.innerHTML = `$${purchase}`;
+};
+
+/**LOCALSTORAGE **/
+if (localStorage.getItem("carrito")) {
+  carrito = JSON.parse(localStorage.getItem("carrito"));
+}
