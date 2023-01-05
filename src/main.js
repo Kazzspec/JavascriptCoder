@@ -1,5 +1,7 @@
 console.log("Hola mundo");
 const productContainer = document.querySelector("#productContainer");
+const btnCarList = document.querySelector("#btnCarList");
+const containerCar = document.querySelector("#containerCar");
 
 class Producto {
   constructor(id, name, price, image, items) {
@@ -7,7 +9,7 @@ class Producto {
     this.name = name;
     this.price = price;
     this.image = image;
-    this.items = 1;
+    this.items = items;
   }
 }
 
@@ -15,29 +17,32 @@ const product1 = new Producto(
   1,
   "Exotic Burger",
   40000,
-  "/assets/img/products/Exotic-burger.jpg"
+  "/assets/img/products/Exotic-burger.jpg",
+  1
 );
 
 const product2 = new Producto(
   2,
   "Piggy Ultra",
   28000,
-  "/assets/img/products/Piggy-Ultra.jpg"
+  "/assets/img/products/Piggy-Ultra.jpg",
+  1
 );
 
 const product3 = new Producto(
   3,
   "Burger Pigasus",
   37000,
-  "/assets/img/products/ultimate-burger-pigasus.jpg"
+  "/assets/img/products/ultimate-burger-pigasus.jpg",
+  1
 );
 // Array de productor para vender
 let productList = [product1, product2, product3];
 // Array de carrito
 let shoppingCart = [];
 
-function renderProducts(arr) {
-  for (product of productList) {
+function renderProducts() {
+  productList.forEach((product) => {
     const productCart = document.createElement("div");
     productCart.classList.add(
       "w-full",
@@ -77,7 +82,7 @@ function renderProducts(arr) {
                 >$${product.price}</span
               >
               <button
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 text-center0"
                 id="btnComprar${product.id}"
                 >Comprar
               </button>
@@ -91,19 +96,20 @@ function renderProducts(arr) {
     boton.addEventListener("click", () => {
       addToShoppingCar(product.id);
     });
-  }
+  });
 }
-renderProducts(productList);
+renderProducts();
 
 // Agregar carrito
 const addToShoppingCar = (id) => {
-  const producto = productList.find((producto) => product.id === id);
-  const productoEnCarrito = shoppingCart.find((producto) => product.id === id);
+  const product = productList.find((product) => product.id === id);
+  const productoEnCarrito = shoppingCart.find((product) => product.id === id);
   if (productoEnCarrito) {
     productoEnCarrito.items++;
   } else {
-    shoppingCart.push(producto);
+    shoppingCart.push(product);
   }
+  mostrarCarrito();
 };
 // / Mostrar el carrito de compras
 
@@ -111,25 +117,74 @@ const contenedorCarrito = document.getElementById("contenedorCarrito");
 const showCar = document.getElementById("showCar");
 
 showCar.addEventListener("click", () => {
+  containerCar.classList.toggle("hidden");
   mostrarCarrito();
 });
 
 const mostrarCarrito = () => {
   contenedorCarrito.innerHTML = "";
-  shoppingCart.forEach((producto) => {
+  shoppingCart.forEach((product) => {
     const card = document.createElement("div");
-    card.classList.add("col-xl-3", "col-md-6", "col-xs-12");
+    card.classList.add("flow-root");
     card.innerHTML = `
-                <div class ='card'>
-                    <img src='${product.image}' class='card-img-top imgProductos'>
-                    <div class=''card-body>
-                        <h5>$${product.name}</h5>
-                        <p>${product.price}</p>
-                        <p>${product.items}</p>
-                        <button id='eliminar' class="btn colorBoton"> Eliminar producto </button>
-                    </div>
-                </div>
+                <ul class="-my-6 divide-y divide-gray-200" role="list">
+                <li class="flex py-6">
+                      <div
+                        class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
+                      >
+                        <img
+                          src=${product.image}
+                          alt="Cangreburger."
+                          class="h-full w-full object-cover object-center"
+                        />
+                      </div>
+
+                      <div class="ml-4 flex flex-1 flex-col">
+                        <div>
+                          <div
+                            class="flex justify-between text-base font-medium text-gray-900"
+                          >
+                            <h3>
+                              <p>${product.name}</p>
+                            </h3>
+                            <p class="ml-4">${product.price}</p>
+                          </div>
+                          <div
+                            class="flex justify-between text-base font-medium text-gray-900"
+                          >
+                          <p class="ml-4">Cantidad: ${product.items}</p>
+                          </div>
+                        </div>
+                        <div
+                          class="flex flex-1 items-end justify-between text-sm"
+                        >
+                          <div class="flex">
+                            <button
+                              type="button"
+                              class="font-medium text-red-600 hover:text-red-700"
+                            id="btnRemove${product.id}">
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                </ul>
         `;
     contenedorCarrito.appendChild(card);
+    //Eliminar productos del carrito:
+    const btnRemove = document.querySelector(`#btnRemove${product.id}`);
+    btnRemove.addEventListener("click", () => {
+      removeFromCar(product.id);
+    });
   });
+};
+
+//Función que elimina el producto del carrito:
+
+const removeFromCar = (id) => {
+  const producto = shoppingCart.find((product) => product.id === id);
+  const indice = shoppingCart.indexOf(producto);
+  shoppingCart.splice(indice, 1);
+  mostrarCarrito();
 };
